@@ -30,7 +30,8 @@ const resolvers = {
       if (!user) {
         throw new AuthenticationError("Invalid credentials");
       }
-      const isValid = await user.isValidPassword(password);
+      // check if password is correct - changed to isCorrectPassword
+      const isValid = await user.isCorrectPassword(password);
       if (!isValid) {
         throw new AuthenticationError("Invalid credentials");
       }
