@@ -13,6 +13,28 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
+// GQL APU endpoint
+const httpLink = createHttpLink({
+  uri: "/graphql",
+});
+
+// middleware using JWT
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem("id_token");
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  };
+});
+
+// create client/use authLink before requests for gql
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+
 function App() {
   return (
     <ApolloProvider client={client}>
