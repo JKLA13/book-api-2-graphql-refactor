@@ -1,5 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { saveBook } = require("../../client/src/utils/API");
+// const { saveBook } = require("../../client/src/utils/API");
 const { User } = require("../models");
 const { signToken } = require("../utils/auth");
 
@@ -58,7 +58,7 @@ const resolvers = {
       }
       const updatedUser = await User.findByIdAndUpdate(
         { _id: context.user._id },
-        { $pull: { savedBooks: { _id: bookId } } },
+        { $pull: { savedBooks: { bookId } } },
         { new: true }
       );
       return updatedUser;
